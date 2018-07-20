@@ -29,8 +29,9 @@ read_elmaven <- function(path, sheet = NULL, compound_database = NULL,
   # TODO Break this out to a function
   # Classic MAVEN style import
   if (!is.null(compound_database)) {
-    compounds <- readr::read_csv(compound_database, col_names = FALSE)
-    names(compounds) <- c("Compound", "Formula", "Molecular_Weight")
+    compounds <- readr::read_csv(compound_database)
+    names(compounds)[which(tolower(names(compounds)) == 'compound')] <- "Compound"
+    names(compounds)[which(tolower(names(compounds)) == 'formula')] <- "Formula"
 
     if (filetype %in% c("xls", "xlsx")) {
       InputDF <- readxl::read_excel(path, sheet = sheet, col_names = FALSE, ...)
